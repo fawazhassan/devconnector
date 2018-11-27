@@ -49,7 +49,7 @@ class Login extends Component {
     const { errors } = this.state;
     return (
       <div>
-        <div className="login">
+        <div className="mainComp">
           <div className="container">
             <div className="row">
               <div className="col-md-8 m-auto">

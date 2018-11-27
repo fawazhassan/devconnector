@@ -1,9 +1,10 @@
-.login,
-.register,
-.landing {
-  padding-top: 50px;
+.mainComp {
+  padding-top: 60px;
 }
 
+.navbar-dark .navbar-nav .nav-link {
+  color: white;
+}
 a {
   color: white;
 }

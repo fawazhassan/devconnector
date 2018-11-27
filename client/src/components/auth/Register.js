@@ -52,7 +52,7 @@ class Register extends Component {
     const { user } = this.props.auth;
     return (
       <div>
-        <div className="register">
+        <div className="mainComp">
           {user ? user.name : null}
           <div className="container">
             <div className="row">
