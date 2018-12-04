@@ -4,16 +4,16 @@ const isEmpty = require("./is-empty");
 module.exports = function validateEducationInput(data) {
   let errors = {};
 
-  data.School = !isEmpty(data.School) ? data.School : "";
-  data.Degree = !isEmpty(data.Degree) ? data.Degree : "";
+  data.school = !isEmpty(data.school) ? data.school : "";
+  data.degree = !isEmpty(data.degree) ? data.degree : "";
   data.from = !isEmpty(data.from) ? data.from : "";
 
-  if (Validator.isEmpty(data.School)) {
-    errors.School = "Educational Insitution name is Required.";
+  if (Validator.isEmpty(data.school)) {
+    errors.school = "Educational Insitution name is Required.";
   }
 
-  if (Validator.isEmpty(data.Degree)) {
-    errors.Degree = "Degree title is Required.";
+  if (Validator.isEmpty(data.degree)) {
+    errors.degree = "Degree title is Required.";
   }
 
   if (Validator.isEmpty(data.from)) {

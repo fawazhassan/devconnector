@@ -158,16 +158,17 @@ router.post(
         ).then(profile => res.json(profile));
       } else {
         // Create
-
-        // Check if handle exists
+        // Check if handle exisits
         Profile.findOne({ handle: profileFields.handle }).then(profile => {
           if (profile) {
             errors.handle = "That handle already exists";
             res.status(400).json(errors);
+          } else {
+            // Save Profile
+            new Profile(profileFields)
+              .save()
+              .then(profile => res.json(profile));
           }
-
-          // Save Profile
-          new Profile(profileFields).save().then(profile => res.json(profile));
         });
       }
     });
@@ -227,8 +228,8 @@ router.post(
 
     Profile.findOne({ user: req.user.id }).then(profile => {
       const newEdu = {
-        School: req.body.School,
-        Degree: req.body.Degree,
+        school: req.body.school,
+        degree: req.body.degree,
         fieldOfStudy: req.body.fieldOfStudy,
         from: req.body.from,
         to: req.body.to,

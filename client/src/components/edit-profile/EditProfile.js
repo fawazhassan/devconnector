@@ -6,9 +6,10 @@ import TextFieldGroup from "../common/textFieldGroup";
 import TextAreaFieldGroup from "../common/textAreaFieldGroup";
 import InputGroup from "../common/inputGroup";
 import SelectListGroup from "../common/selectListGroup";
-import { createProfile } from "../../actions/profileActions";
+import { createProfile, getCurrentProfile } from "../../actions/profileActions";
+import isEmpty from "../../validation/is-empty";
 
-class CreateProfile extends Component {
+class EditProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,9 +34,71 @@ class CreateProfile extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.props.getCurrentProfile();
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.errors !== this.props.errors) {
       this.setState({ errors: this.props.errors });
+    }
+
+    if (this.props.profile.profile) {
+      const profile = this.props.profile.profile;
+
+      //Change skills back to csv
+      const skillsCSV = profile.skills.join(",");
+
+      //Check if profile field exists or not, make empty string
+      profile.handle = !isEmpty(profile.handle) ? profile.handle : "";
+      profile.status = !isEmpty(profile.handle) ? profile.handle : 0;
+
+      profile.company = !isEmpty(profile.company) ? profile.company : "";
+      profile.website = !isEmpty(profile.website) ? profile.website : "";
+      profile.location = !isEmpty(profile.location) ? profile.location : "";
+      profile.githubusername = !isEmpty(profile.githubusername)
+        ? profile.githubusername
+        : "";
+      profile.bio = !isEmpty(profile.bio) ? profile.bio : "";
+      profile.social = !isEmpty(profile.social) ? profile.social : {};
+
+      profile.twitter = !isEmpty(profile.social.twitter)
+        ? profile.social.twitter
+        : "";
+      profile.facebook = !isEmpty(profile.social.facebook)
+        ? profile.social.facebook
+        : "";
+      profile.linkedin = !isEmpty(profile.social.linkedin)
+        ? profile.social.linkedin
+        : "";
+      profile.instagram = !isEmpty(profile.social.instagram)
+        ? profile.social.instagram
+        : "";
+      profile.youtube = !isEmpty(profile.social.youtube)
+        ? profile.social.youtube
+        : "";
+
+      //set component field state
+      // IMPORTANT: check if profile changed. only then setState()!
+      // Otherwise we run into an endless loop
+      if (prevProps.profile !== this.props.profile) {
+        // Set component fields state
+        this.setState({
+          handle: profile.handle,
+          company: profile.company,
+          website: profile.website,
+          location: profile.location,
+          status: profile.status,
+          skills: skillsCSV,
+          githubusername: profile.githubusername,
+          bio: profile.bio,
+          twitter: profile.twitter,
+          facebook: profile.facebook,
+          linkedin: profile.linkedin,
+          youtube: profile.youtube,
+          instagram: profile.instagram
+        });
+      }
     }
   }
 
@@ -132,8 +195,11 @@ class CreateProfile extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Create Your Profile</h1>
-              <p className="lead text-center">Lets get some info</p>
+              <Link to="/dashboard" className="btn btn-light">
+                {" "}
+                Go Back
+              </Link>
+              <h1 className="display-4 text-center">Edit Your Profile</h1>
               <small className="d-block pb-3">* = Required Fields</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
@@ -232,7 +298,9 @@ class CreateProfile extends Component {
   }
 }
 
-CreateProfile.PropTypes = {
+EditProfile.PropTypes = {
+  createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -244,5 +312,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createProfile }
-)(CreateProfile);
+  { getCurrentProfile, createProfile }
+)(EditProfile);

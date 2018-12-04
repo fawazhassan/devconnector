@@ -1,13 +1,20 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import { connect } from "react-redux";
-import { getCurrentProfile } from "../../actions/profileActions";
+import { getCurrentProfile, deleteAccount } from "../../actions/profileActions";
 import Spinner from "../common/spinner";
+import ProfileActions from "./ProfileActions";
+import Experience from "./Experience";
+import Education from "./Education";
 
 class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
+  }
+
+  onDelete(e) {
+    this.props.deleteAccount();
   }
   render() {
     const { user } = this.props.auth;
@@ -18,12 +25,27 @@ class Dashboard extends Component {
     if (profile === null || loading) {
       dashboardContent = <Spinner />;
     } else {
-      //Check if logged in user has a profile set up.
+      //Check if logged in user AND has a profile set up.
       if (Object.keys(profile).length > 0) {
         dashboardContent = (
           <div style={{ margin: "auto", textAlign: "center" }}>
-            <h4>{profile.handle}</h4>
-            <h3>{profile.website}</h3>
+            <h3>
+              Welcome back{" "}
+              <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
+            </h3>
+            <ProfileActions />
+            <Experience experience={profile.experience} />
+            <Education education={profile.education} />
+
+            {/*TODO: exp and  education*/}
+            <div style={{ marginBottom: "60px" }}>
+              <button
+                onClick={this.onDelete.bind(this)}
+                className="btn btn-danger"
+              >
+                Delete My Account
+              </button>
+            </div>
           </div>
         );
       } else {
@@ -45,7 +67,7 @@ class Dashboard extends Component {
       }
     }
     return (
-      <div class="mainComp dashboard">
+      <div className="mainComp dashboard">
         <div className="container">
           <div className="row">
             <div className="col-md-12">
@@ -64,12 +86,14 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-Dashboard.PropTypes = {
-  GetCurrentProfile: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  Profile: PropTypes.object.isRequired
+Dashboard.propTypes = {
+  deleteAccount: propTypes.func.isRequired,
+
+  getCurrentProfile: propTypes.func.isRequired,
+  auth: propTypes.object.isRequired,
+  profile: propTypes.object.isRequired
 };
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, deleteAccount }
 )(Dashboard);
