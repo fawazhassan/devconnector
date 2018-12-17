@@ -19,7 +19,7 @@ class CreateProfile extends Component {
       location: "",
       status: "",
       skills: "",
-      githubusername: "",
+      github_username: "",
       bio: "",
       twitter: "",
       facebook: "",
@@ -48,7 +48,7 @@ class CreateProfile extends Component {
       location: this.state.location,
       status: this.state.status,
       skills: this.state.skills,
-      githubusername: this.state.githubusername,
+      github_username: this.state.github_username,
       bio: this.state.bio,
       twitter: this.state.twitter,
       facebook: this.state.facebook,
@@ -189,10 +189,10 @@ class CreateProfile extends Component {
                 />
                 <TextFieldGroup
                   placeholder="Github Username"
-                  name="githubusername"
-                  value={this.state.githubusername}
+                  name="github_username"
+                  value={this.state.github_username}
                   onChange={this.onChange}
-                  error={errors.githubusername}
+                  error={errors.github_username}
                   info="For your Github repos to be visible on dev connector, please add your username"
                 />
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
+import { Link, withRouter } from "react-router-dom";
 import TextFieldGroup from "../common/textFieldGroup";
 import TextAreaFieldGroup from "../common/textAreaFieldGroup";
 import InputGroup from "../common/inputGroup";
@@ -56,8 +56,8 @@ class EditProfile extends Component {
       profile.company = !isEmpty(profile.company) ? profile.company : "";
       profile.website = !isEmpty(profile.website) ? profile.website : "";
       profile.location = !isEmpty(profile.location) ? profile.location : "";
-      profile.githubusername = !isEmpty(profile.githubusername)
-        ? profile.githubusername
+      profile.github_username = !isEmpty(profile.github_username)
+        ? profile.github_username
         : "";
       profile.bio = !isEmpty(profile.bio) ? profile.bio : "";
       profile.social = !isEmpty(profile.social) ? profile.social : {};
@@ -90,7 +90,7 @@ class EditProfile extends Component {
           location: profile.location,
           status: profile.status,
           skills: skillsCSV,
-          githubusername: profile.githubusername,
+          github_username: profile.github_username,
           bio: profile.bio,
           twitter: profile.twitter,
           facebook: profile.facebook,
@@ -111,7 +111,7 @@ class EditProfile extends Component {
       location: this.state.location,
       status: this.state.status,
       skills: this.state.skills,
-      githubusername: this.state.githubusername,
+      github_username: this.state.github_username,
       bio: this.state.bio,
       twitter: this.state.twitter,
       facebook: this.state.facebook,
@@ -255,10 +255,10 @@ class EditProfile extends Component {
                 />
                 <TextFieldGroup
                   placeholder="Github Username"
-                  name="githubusername"
-                  value={this.state.githubusername}
+                  name="github_username"
+                  value={this.state.github_username}
                   onChange={this.onChange}
-                  error={errors.githubusername}
+                  error={errors.github_username}
                   info="For your Github repos to be visible on dev connector, please add your username"
                 />
 
@@ -272,11 +272,12 @@ class EditProfile extends Component {
                 />
                 <div className="mb-3">
                   <button
-                    onClick={() =>
+                    type="button"
+                    onClick={() => {
                       this.setState(prevState => ({
                         displaySocialInputs: !prevState.displaySocialInputs
-                      }))
-                    }
+                      }));
+                    }}
                     className="btn btn-light"
                   >
                     Add Social Network Links
@@ -298,7 +299,7 @@ class EditProfile extends Component {
   }
 }
 
-EditProfile.PropTypes = {
+EditProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
@@ -313,4 +314,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getCurrentProfile, createProfile }
-)(EditProfile);
+)(withRouter(EditProfile));
