@@ -11,7 +11,7 @@ class Experience extends Component {
 
   render() {
     const experience = this.props.experience.map(exp => (
-      <tr key={exp._id}>
+      <tr key={exp._id} className="pl-0">
         <td>{exp.company}</td>
         <td>{exp.title}</td>
         <td>
@@ -22,12 +22,12 @@ class Experience extends Component {
             <Moment format="DD/MM/YYYY">{exp.to}</Moment>
           )}
         </td>
-        <td>
+        <td className="pl-0">
           <button
             onClick={this.onDeleteClick.bind(this, exp._id)}
             className="btn btn-danger"
           >
-            Delete
+            <i class="fa fa-trash fa-1" aria-hidden="true" />
           </button>
         </td>
       </tr>

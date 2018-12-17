@@ -28,8 +28,8 @@ class Dashboard extends Component {
       //Check if logged in user AND has a profile set up.
       if (Object.keys(profile).length > 0) {
         dashboardContent = (
-          <div style={{ margin: "auto", textAlign: "center" }}>
-            <h3>
+          <div>
+            <h3 style={{ margin: "auto", textAlign: "center" }}>
               Welcome back{" "}
               <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
             </h3>
@@ -70,8 +70,8 @@ class Dashboard extends Component {
       <div className="mainComp dashboard">
         <div className="container">
           <div className="row">
-            <div className="col-md-12">
-              <h1 className="dispay-4">Dashboard</h1>
+            <div className="col-md-10">
+              <h1 className="dispay-4 text-center">Dashboard</h1>
               {dashboardContent}
             </div>
           </div>
